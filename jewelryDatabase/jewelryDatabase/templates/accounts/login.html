@@ -1,25 +1,13 @@
-{# Load the tag library #}
-{% load bootstrap5 %}
+{% extends 'base.html' %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
+{% block title %}Login{% endblock %}
 
-{# Display django.contrib.messages as Bootstrap alerts #}
-{% bootstrap_messages %}
-
-  <div class="jumbotron">
-    <h1 class="display-4">Django Jewelry Store</h1>
-    <p class="lead">Please enter your employee login credentials</p>
-    <hr class="my-4">
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Log In</button>
-      </form>
-    <p class="lead">
-    </p>
-  </div>
-
-
-
+{% block content %}
+<h2>Login</h2>
+<form method="post">
+   {% csrf_token %}
+    {{form.as_p }}
+    <button type="submit">Login</button>
+</form>
+<h1>Login</h1>
+{% endblock %}
