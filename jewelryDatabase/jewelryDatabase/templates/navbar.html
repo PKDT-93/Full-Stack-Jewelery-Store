@@ -1,3 +1,41 @@
+{# Load the tag library #}
+{% load bootstrap5 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/">Home</a>
+          <a class="nav-link" href="customerlist">Customer List</a>
+          <a class="nav-link" href="findemployee">Employees</a>
+        </div>
+      </div>
+    </div>
+    <span style="float:right">
+        {% if user.is_authenticated %}
+            <span>Hi {{ user.username }}</span>
+            <span><a href="{% url 'logout' %}">Logout</a></span>
+        {% else %}
+            <span><a href="{% url 'login' %}">Login</a></span>
+        {% endif %}
+    </span>
+  </nav>
+
+
+{% comment %} DO NOT DELETE {% endcomment %}
+
+  {% comment %} 
 <nav>
     {% url 'index' as index_url %}
     <span>{% if request.path == index.url %}Home{% else %} <a href="{{ index_url }}">Home</a>{% endif %}</span>
@@ -16,4 +54,4 @@
             <span><a href="{% url 'login' %}">Login</a></span>
         {% endif %}
     </span>
-</nav>
+</nav> {% endcomment %}
