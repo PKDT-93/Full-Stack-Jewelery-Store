@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>{% block title %}Jewelry Store{% endblock %}</title>
-</head>
+{% if user.is_authenticated %}
 <body>
-    {% include 'navbar.html'%}
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <title>{% block title %}Jewelry Store{% endblock %}</title>
+        </head>
+        <body>
+            {% include 'navbar.html'%}
+            <main>
+                {% block content %}
+                {% endblock %}
+            </main>
+        </body>
+        </html>
 </body>
-</html>
+{% else %}
+<script>
+    window.location.href = 'accounts/login' // Redirect to login if not authenicated 
+</script>
+{% endif %}

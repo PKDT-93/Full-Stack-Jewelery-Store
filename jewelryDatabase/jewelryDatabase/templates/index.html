@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
+{% if user.is_authenticated %}
+<body>
+    {% block title %}Home{% endblock %}
 
-{% block title %}Home{% endblock %}
-
-{% block content %}
-
-<h1>Template Homepage</h1>
-
-{% endblock %}
+    {% block content %}
+    
+    <h1>Template Homepage</h1>
+    
+    {% endblock %}
+</body>
+{% else %}
+<script>
+    window.location.href = 'accounts/login' // Your login page URL
+</script>
+{% endif %}
