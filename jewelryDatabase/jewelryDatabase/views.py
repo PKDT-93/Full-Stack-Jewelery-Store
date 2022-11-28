@@ -2,6 +2,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+from django.template import loader
+from .models import Item
+from django.db import connection
 
 def index(request):
     print(request.user)
@@ -13,5 +17,16 @@ def customerlist(request):
 def findemployee(request):
     return render(request, 'findemployee.html')
 
+# def items(request):
+#     return render(request, 'items.html')
+
 def items(request):
-    return render(request, 'items.html')
+    template = loader.get_template('items.html')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM Item")
+        row = cursor.fetchall()
+        context = {
+            'row': row,
+        }
+    print(row)
+    return HttpResponse(template.render(context, request))

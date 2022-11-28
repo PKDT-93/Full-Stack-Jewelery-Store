@@ -6,4 +6,15 @@
 
 <h1>Items</h1>
 
+<table border="1">
+    {% for x in row %}
+    <tr>
+        {% for col in x %}
+            <td>{{ col }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </table>
+    
 {% endblock %}
+
