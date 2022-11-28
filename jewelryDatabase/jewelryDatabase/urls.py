@@ -25,6 +25,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html"), name="index"),
     path('customerlist', views.customerlist, name='customerlist'),
     path('findemployee', views.findemployee, name='findemployee'),
+    path('items', views.items, name='items'),
     path('accounts/login', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),
     path('accounts/logout', auth_views.LogoutView.as_view(), name="logout"),
 ]

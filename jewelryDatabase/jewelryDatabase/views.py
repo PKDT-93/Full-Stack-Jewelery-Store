@@ -12,4 +12,6 @@ def customerlist(request):
 
 def findemployee(request):
     return render(request, 'findemployee.html')
-    
+
+def items(request):
+    return render(request, 'items.html')
