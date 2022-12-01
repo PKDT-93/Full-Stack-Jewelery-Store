@@ -24,7 +24,16 @@ def customerlist(request):
 
 
 def findemployee(request):
-    return render(request, 'findemployee.html')
+    template = loader.get_template('findemployee.html')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM Employee")
+        row = cursor.fetchall()
+        context = {
+            'row': row,
+        }
+    print(row)
+    return HttpResponse(template.render(context, request))
+    #return render(request, 'findemployee.html')
 
 # def items(request):
 #     return render(request, 'items.html')
@@ -33,6 +42,17 @@ def items(request):
     template = loader.get_template('items.html')
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM Item")
+        row = cursor.fetchall()
+        context = {
+            'row': row,
+        }
+    print(row)
+    return HttpResponse(template.render(context, request))
+
+def supplier(request): 
+    template = loader.get_template('supplier.html')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM Supplier")
         row = cursor.fetchall()
         context = {
             'row': row,
