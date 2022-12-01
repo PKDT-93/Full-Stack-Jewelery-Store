@@ -12,7 +12,16 @@ def index(request):
     return render(request, 'index.html')
 
 def customerlist(request):
-    return render(request, 'customerlist.html')
+    template = loader.get_template('customerlist.html')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM Person WHERE Customer = 1")
+        row = cursor.fetchall()
+        context = {
+            'row': row,
+        }
+    print(row)
+    return HttpResponse(template.render(context, request))
+
 
 def findemployee(request):
     return render(request, 'findemployee.html')
