@@ -1,5 +1,6 @@
 /jewelryDatabase/env/
 /CPSC471FINAL/env/
+/env/
 env/pyvenv.cfg
 env/Lib/site-packages/distutils-precedence.pth
 env/Lib/site-packages/Django-4.1.3.dist-info/AUTHORS
