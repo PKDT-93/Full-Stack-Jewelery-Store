@@ -35,8 +35,6 @@ def findemployee(request):
     return HttpResponse(template.render(context, request))
     #return render(request, 'findemployee.html')
 
-# def items(request):
-#     return render(request, 'items.html')
 
 def items(request):
     template = loader.get_template('items.html')
