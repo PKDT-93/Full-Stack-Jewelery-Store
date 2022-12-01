@@ -1,4 +1,13 @@
 {% extends 'base.html' %}
+{# Load the tag library #}
+{% load bootstrap5 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
 
 {% block title %}Items{% endblock %}
 
@@ -6,7 +15,7 @@
 
 <h1>Items</h1>
 
-<table border="1">
+{% comment %} <table border="1">
     {% for x in row %}
     <tr>
         {% for col in x %}
@@ -14,7 +23,27 @@
         {% endfor %}
     </tr>
     {% endfor %}
-    </table>
+    </table> {% endcomment %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Item ID</th>
+                <th scope="col">Barcode</th>
+                <th scope="col">Weight</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for x in row %}
+                <tr>
+                    {% for col in x %}
+                        <td>{{ col }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                </table>
+              </tbody>
+          </table>
     
 {% endblock %}
 
