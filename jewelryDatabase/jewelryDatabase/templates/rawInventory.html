@@ -1,20 +1,10 @@
 {% extends 'base.html' %}
-{# Load the tag library #}
-{% load bootstrap5 %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
-{# Display django.contrib.messages as Bootstrap alerts #}
-{% bootstrap_messages %}
-
-{% block title %}Items{% endblock %}
+{% block title %}Raw Inventory{% endblock %}
 
 {% block content %}
 
-<h1>Items</h1>
-
+<h1>Raw Inventory</h1>
 {% comment %} <table border="1">
     {% for x in row %}
     <tr>
@@ -27,13 +17,10 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Item ID</th>
-                <th scope="col">Barcode</th>
+                <th scope="col">Supplier ID</th>
+                <th scope="col">Name</th>
                 <th scope="col">Weight</th>
                 <th scope="col">Price</th>
-                <th scope="col">Type</th>
-                <th scope="col">StoreID</th>
-                <th scope="col">Stock</th>
               </tr>
             </thead>
             <tbody>
@@ -47,6 +34,4 @@
                 </table>
               </tbody>
           </table>
-    
 {% endblock %}
-

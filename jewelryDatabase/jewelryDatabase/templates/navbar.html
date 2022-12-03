@@ -20,6 +20,9 @@
           <a class="nav-link" href="customerlist">Customer List</a>
           <a class="nav-link" href="findemployee">Employees</a>
           <a class="nav-link" href="items">Items</a>
+          <a class="nav-link" href="supplier">Supplier List</a>
+          <a class="nav-link" href="store">Store Locations</a>
+          <a class="nav-link" href="rawInventory">Raw Inventory</a>
         </div>
       </div>
     </div>
@@ -45,6 +48,16 @@
     
     {% url 'findemployee' as findemployee_url %}
     <span>{% if request.path == findemployee.url %}Employees{% else %} <a href="{{ findemployee_url }}">Employees</a>{% endif %}</span>
+
+    {% url 'supplier' as supplier_url %}
+    <span>{% if request.path == supplier.url %}Supplier List{% else %} <a href="{{ supplier_url }}">Supplier List</a>{% endif %}</span>
+
+    {% url 'store' as store_url %}
+    <span>{% if request.path == store.url %}Store Inventory {% else %} <a href="{{ store_url }}">Store Inventory</a>{% endif %}</span>
+
+    {% url 'rawInventory' as rawInventory_url %}
+    <span>{% if request.path == rawInventory.url %}Raw Inventory {% else %} <a href="{{ rawInventory_url }}">Raw Inventory</a>{% endif %}</span>
+
 
     <span style="float:right">
         {% if user.is_authenticated %}
