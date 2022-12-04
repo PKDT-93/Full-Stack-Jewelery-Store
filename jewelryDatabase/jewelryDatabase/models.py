@@ -319,6 +319,9 @@ class AuthUser(models.Model):
     date_joined = models.DateTimeField()
     first_name = models.CharField(max_length=150)
 
+    # def __str__(self):
+    #     return self.username + ' ' + self.last_name + ' ' + self.email + self.is_superuser 
+
     class Meta:
         managed = False
         db_table = 'auth_user'

@@ -1,5 +1,3 @@
-{% extends 'base.html' %}
-{# Load the tag library #}
 {% load bootstrap5 %}
 
 {# Load CSS and JavaScript #}
@@ -8,30 +6,8 @@
 
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
-
-{% block title %}Items{% endblock %}
-
 {% block content %}
-<h1>Items</h1>
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      <div>
-        <form action="items/lookup" method="post" id="search">
-          {% csrf_token %}
-          <button type="submit" name = "system" value="Pendant" form ="search" class="btn btn-primary">
-            Pendant Lookup</button>
-        </form>
-        </div>
-    </div>
-    <div class="col-sm">
-      <a class="btn btn-primary" href="/addemployee" role="button">Test</a>
-    </div>
-    <div class="col-sm">
-      <a class="btn btn-primary" href="/addemployee" role="button">Test</a>
-    </div>
-  </div>
-</div>
+<h1> {{ system }} Returned Result </h1>
 <div class="container-fluid">
   <div class = "row">
     <table class="table">
@@ -59,5 +35,8 @@
     </table>
   </div>
 </div>    
+<div class = "row">
+  <a class="btn btn-primary" href="/items" role="button">Back to Items</a>
+</div>
 {% endblock %}
 
