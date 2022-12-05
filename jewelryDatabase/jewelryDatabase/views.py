@@ -39,7 +39,6 @@ def findemployee(request):
     return HttpResponse(template.render(context, request))
     # return render(request, 'findemployee.html')
 
-
 # def items(request):
 #     template = loader.get_template('items.html')
 #     with connection.cursor() as cursor:
@@ -169,6 +168,21 @@ def addItem(request):
         'form': form,
     }
     return render(request, 'items/additem.html', context)
+
+# def addItem(request):
+#     if request.method == 'POST': 
+#         barcode = request.POST.get('barcode', None)
+#         weight = request.POST.get('weight', None)
+#         price = request.POST.get('price', None)
+#         type = request.POST.get('type', None)
+#         item_list =[barcode, weight, price, type]
+#         with connection.cursor() as cursor:
+#             cursor.execute("INSERT INTO Item (Barcode, Weight, Price, Type VALUES (%s, %s, %s, %s)", [item_list])
+#             row = cursor.fetchall()
+#         context = {
+#             'row': row,
+#         }
+#     return render(request, 'items/additem.html')
 
 def addSupplier(request):
     form = addSupplierForm()

@@ -9,7 +9,7 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 {% block content %}
-    <div class="container-fluid">
+    {% comment %} <div class="container-fluid">
         <div class="row">
             <h2> Add New Item</h2>
         </div>
@@ -20,6 +20,16 @@
                 <button type="submit" class="btn btn-success">Save</button>
               </form>
             </div>
-        </div>
+        </div> {% endcomment %}
+
+        <form id="user_form" method="post" action="" class="form" role="form">
+            {% csrf_token %}
+            <h2 class="form-signin-heading">Test </h2>
+            <input type="text" class="form-control" name="barcode"  value="{{user_form.barcode}}" placeholder="barcode" required autofocus>
+            <input type="text" class="form-control" name="weight" placeholder="weight" required>
+            <input type="text" class="form-control" name="price" placeholder="price" required>      
+            <input type="text" class="form-control" name="type" placeholder="type" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+        </form>
 {% endblock %}
 
