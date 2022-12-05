@@ -15,20 +15,28 @@
 <h1>Items</h1>
 <div class="container">
   <div class="row">
-    <div class="col-sm">
-      <div>
-        <form action="items/lookup" method="post" id="search">
+    <div class="col"> 
+      <div class="mr-auto">
+        {% csrf_token %}
+        <form method="POST" action="/items/lookup">
           {% csrf_token %}
-          <button type="submit" name = "system" value="Pendant" form ="search" class="btn btn-primary">
-            Pendant Lookup</button>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-sm" name="system" placeholder="Search Item Type: I.E 'Pendant' ">
+            <input class="btn btn-primary" type="submit" value="Submit">
+          </div>
         </form>
-        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <a class="btn btn-primary" href="items/additem" role="button">Add Item</a>
     </div>
     <div class="col-sm">
-      <a class="btn btn-primary" href="/addemployee" role="button">Test</a>
+      One of three columns
     </div>
     <div class="col-sm">
-      <a class="btn btn-primary" href="/addemployee" role="button">Test</a>
+      One of three columns
     </div>
   </div>
 </div>
@@ -42,8 +50,8 @@
           <th scope="col">Weight</th>
           <th scope="col">Price</th>
           <th scope="col">Type</th>
-          <th scope="col">StoreID</th>
-          <th scope="col">Stock</th>
+          {% comment %} <th scope="col">StoreID</th>
+          <th scope="col">Stock</th> {% endcomment %}
         </tr>
       </thead>
       <tbody>

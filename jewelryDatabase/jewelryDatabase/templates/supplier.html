@@ -5,15 +5,6 @@
 {% block content %}
 
 <h1>Supplier List</h1>
-{% comment %} <table border="1">
-    {% for x in row %}
-    <tr>
-        {% for col in x %}
-            <td>{{ col }}</td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-    </table> {% endcomment %}
           <table class="table">
             <thead>
               <tr>
@@ -33,4 +24,22 @@
                 </table>
               </tbody>
           </table>
+          <div class="row">
+  <div class="col-sm">
+    <a class="btn btn-primary" href="suppliers/addsupplier" role="button">Add Supplier</a>
+  </div>
+  <div class="col-sm">
+    {% csrf_token %}
+        <form method="POST" action="/supplier">
+          {% csrf_token %}
+          <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-sm" name="supplierid" placeholder="Type in supplier number to delete ">
+            <input class="btn btn-primary" type="submit" value="Submit">
+          </div>
+        </form>
+  </div>
+  <div class="col-sm">
+    <a class="btn btn-primary" href="#" role="button">Edit Supplier</a>
+  </div>
+</div>
 {% endblock %}

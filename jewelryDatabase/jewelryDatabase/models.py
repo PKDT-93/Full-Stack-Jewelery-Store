@@ -59,6 +59,9 @@ class Item(models.Model):
     price = models.IntegerField(db_column='Price', blank=True, null=True)  # Field name made lowercase.
     type = models.TextField(db_column='Type', blank=True, null=True)  # Field name made lowercase.
 
+    def __str__(self):
+        return self.itemid + ' ' + self.barcode + ' ' + self.weight + ' ' + self.price + ' ' + self.type
+
     class Meta:
         managed = False
         db_table = 'Item'
