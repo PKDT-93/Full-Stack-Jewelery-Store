@@ -5,19 +5,37 @@
 
     {% block content %}
     <div class"row">
-        <h1>Homepage</h1>
+        {% comment %} <h1>Homepage</h1> {% endcomment %}
     </div>
-    
+    <br></br>
     <div class="container">
         <div class="row">
           <div class="col-sm">
-            One of three columns
+            <ul class="list-group">
+              <h1> Daily To Do List </h1>
+              <li class="list-group-item">Clean Store</li>
+              <li class="list-group-item">Call Michael</li>
+              <li class="list-group-item">Order More Silver</li>
+              <li class="list-group-item">Drop store key off in mailbox</li>
+              <li class="list-group-item">Create custom ring</li>
+            </ul>
           </div>
           <div class="col-sm">
-            One of three columns
+            <div class="jumbotron">
+              <h1 class="display-4">Announcements</h1>
+              <p class="lead">Tuesday Dec, 10th will be a holiday and the store will be closed </p>
+              <hr class="my-4">
+              <p>Please remember to submit your time cards tonight to account for your hours worked.</p>
+              <p class="lead">
+                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+              </p>
+            </div>
           </div>
           <div class="col-sm">
-            One of three columns
+            <h1>Daily Sales Goal</h1>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
           </div>
         </div>
       </div>
