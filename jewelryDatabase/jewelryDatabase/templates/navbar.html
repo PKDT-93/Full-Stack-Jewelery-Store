@@ -23,6 +23,7 @@
           <a class="nav-link" href="/supplier">Supplier List</a>
           <a class="nav-link" href="/store">Store Locations</a>
           <a class="nav-link" href="/rawInventory">Raw Inventory</a>
+          <a class="nav-link" href="/purchase">Purchases</a>
         </div>
       </div>
     </div>
@@ -57,7 +58,9 @@
 
     {% url 'rawInventory' as rawInventory_url %}
     <span>{% if request.path == rawInventory.url %}Raw Inventory {% else %} <a href="{{ rawInventory_url }}">Raw Inventory</a>{% endif %}</span>
-
+    
+    {% url 'purchase' as purchase_url %}
+    <span>{% if request.path == purchase.url %} Purchases {% else %} <a href="{{ purchase_url }}"> Purchases </a>{% endif %}</span>
 
     <span style="float:right">
         {% if user.is_authenticated %}

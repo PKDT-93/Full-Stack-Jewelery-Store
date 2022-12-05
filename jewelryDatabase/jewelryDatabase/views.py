@@ -37,7 +37,20 @@ def findemployee(request):
         }
     print(row)
     return HttpResponse(template.render(context, request))
-    # return render(request, 'findemployee.html')
+
+
+
+def purchaseHistory(request):
+    template = loader.get_template('purchase.html')
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT * FROM Purchase JOIN Person ON Person.ID = Purchase.PersonID")
+        row = cursor.fetchall()
+        context = {
+            'row': row,
+        }
+    print(row)
+    return HttpResponse(template.render(context, request))
 
 # def items(request):
 #     template = loader.get_template('items.html')
@@ -195,3 +208,5 @@ def addSupplier(request):
         'form': form,
     }
     return render(request, 'suppliers/addsupplier.html', context)
+
+
