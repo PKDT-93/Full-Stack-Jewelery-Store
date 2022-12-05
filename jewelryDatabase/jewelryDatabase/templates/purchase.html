@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Purchase{% endblock %}
+
+{% block content %}
+
+<h1>Purchase History</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Supplier ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Weight</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for x in row %}
+                <tr>
+                    {% for col in x %}
+                        <td>{{ col }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                </table>
+              </tbody>
+          </table>
+{% endblock %}
