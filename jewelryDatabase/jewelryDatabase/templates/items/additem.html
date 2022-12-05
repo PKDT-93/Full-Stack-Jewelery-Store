@@ -9,27 +9,31 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 {% block content %}
-   <div class="container-fluid">
-        <div class="row">
-            <h2> Add New Item</h2>
-        </div>
-        <div class="row">
-            <form action ="" method="post">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="btn btn-success">Save</button>
-              </form>
-            </div>
-        </div>
-
-        {% comment %} <form id="user_form" method="post" action="" class="form" role="form">
+<div class="container-fluid">
+    <div class="row">
+        <div class ="row">
+            <h2 class="form-signin-heading">Add Item</h2>
+        </row>
+      <div class="col">
+        <form id="user_form" method="post" action="" class="form" role="form">
             {% csrf_token %}
-            <h2 class="form-signin-heading">Test </h2>
-            <input type="text" class="form-control" name="barcode"  value="{{user_form.barcode}}" placeholder="barcode" required autofocus>
-            <input type="text" class="form-control" name="weight" placeholder="weight" required>
-            <input type="text" class="form-control" name="price" placeholder="price" required>      
-            <input type="text" class="form-control" name="type" placeholder="type" required>
+            <input type="text" class="form-control" name="barcode"  value="{{user_form.barcode}}" placeholder="Enter Unique Barcode Number">
+            <input type="text" class="form-control" name="weight" placeholder="Enter Item Weight" required>
+            <input type="text" class="form-control" name="price" placeholder="Enter Item Price" required>      
+            <input type="text" class="form-control" name="type" placeholder="Enter Item Type I.E (Pendant, Ring, Necklace, Bracelet, Watch, Other)" required>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
-        </form> {% endcomment %}
+        </form> 
+      </div>
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Read me</h5>
+              <p class="card-text">&#9642;Fill out all fields on the left to insert a new item into the database.<br></br>
+                &#9642;Ensure that all fields are filled and barcode is unique</p>
+              <a href="/items" class="btn btn-primary">Back to Items</a>
+            </div>
+          </div>
+      </div>
+    </div>
 {% endblock %}
 

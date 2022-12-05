@@ -17,7 +17,7 @@ from codecs import register
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
-from .forms import addItemForm
+# from .forms import addItemForm
 from . import views
 from django.views.generic.base import TemplateView
 # from jewelryDatabase.views import register  
