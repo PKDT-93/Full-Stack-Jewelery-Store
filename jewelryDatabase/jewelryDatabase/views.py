@@ -42,6 +42,9 @@ def addCustomer(request):
 
 
 def findemployee(request):
+    if not request.user.is_superuser:
+        return redirect('/')
+        
     template = loader.get_template('findemployee.html')
     with connection.cursor() as cursor:
         cursor.execute(
@@ -110,6 +113,9 @@ def supplier(request):
 
 
 def deleteSupplier(request):
+    if not request.user.is_superuser:
+        return redirect('/')
+
     if request.method == 'POST':
         supplierID = request.POST.get('deletesupplier', None)
         with connection.cursor() as cursor:
@@ -120,6 +126,9 @@ def deleteSupplier(request):
 
 
 def deleteItem(request):
+    if not request.user.is_superuser:
+        return redirect('/')
+
     if request.method == 'POST':
         itemid = request.POST.get('deleteitem', None)
         with connection.cursor() as cursor:
@@ -172,6 +181,9 @@ def addEmployee(request):
     return render(request, 'addemployee.html', context)
 
 def addItem(request):
+    if not request.user.is_superuser:
+        return redirect('/')
+
     if request.method == 'POST':
         barcode = request.POST.get('barcode', None)
         weight = request.POST.get('weight', None)
@@ -193,6 +205,9 @@ def deleteItem(request):
     return render(request, 'items/deleteitem.html')
 
 def addSupplier(request):
+    if not request.user.is_superuser:
+        return redirect('/')
+
     form = addSupplierForm()
     if request.method == 'POST':
         form = addSupplierForm(request.POST)
