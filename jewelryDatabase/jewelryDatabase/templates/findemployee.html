@@ -3,9 +3,20 @@
 {% block title %}Find Employee{% endblock %}
 
 {% block content %}
+<h1>Employees</h1>
 <div class="container-fluid">
   <div class="row">
-  <h1>Employees</h1>
+  <div class="row">
+    <div class="col-sm">
+      <a class="btn btn-primary" href="/addemployee" role="button">Add Employee</a>
+    </div>
+    <div class="col-sm">
+      <a class="btn btn-primary" href="#" role="button">Delete Employee</a>
+    </div>
+    <div class="col-sm">
+      <a class="btn btn-primary" href="#" role="button">Edit Employee</a>
+    </div>
+  </div>
   <table class="table">
     <thead>
       <tr>
@@ -28,17 +39,6 @@
         </table>
       </tbody>
   </table>
-</div>
-<div class="row">
-  <div class="col-sm">
-    <a class="btn btn-primary" href="/addemployee" role="button">Add Employee</a>
-  </div>
-  <div class="col-sm">
-    <a class="btn btn-primary" href="#" role="button">Delete Employee</a>
-  </div>
-  <div class="col-sm">
-    <a class="btn btn-primary" href="#" role="button">Edit Employee</a>
-  </div>
 </div>
 </div>
 
