@@ -3,35 +3,35 @@
 {% block title %}Customer List{% endblock %}
 
 {% block content %}
-
 <h1>Customer List</h1>
-{% comment %} <table border="1">
+<div class="row">
+  <div class="col-sm">
+    <a class="btn btn-primary" href="customers/addcustomer" role="button">Add New Customer</a>
+  </div>
+  <div class="col-sm">
+    <a class="btn btn-primary" href="items/deletecustomer" role="button">Delete Customer</a>
+  </div>
+  <div class="col-sm">
+    One of three columns
+  </div>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">PersonID</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+    </tr>
+  </thead>
+  <tbody>
     {% for x in row %}
     <tr>
-        {% for col in x %}
-            <td>{{ col }}</td>
-        {% endfor %}
+      {% for col in x %}
+      <td>{{ col }}</td>
+      {% endfor %}
     </tr>
     {% endfor %}
-    </table> {% endcomment %}
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">PersonID</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Email</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for x in row %}
-                <tr>
-                    {% for col in x %}
-                        <td>{{ col }}</td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-                </table>
-              </tbody>
-          </table>
+  </table>
+</tbody>
 {% endblock %}

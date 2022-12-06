@@ -10,9 +10,11 @@ from .models import Item
 from django.db import connection
 from django.contrib.auth.forms import UserCreationForm
 
+
 def index(request):
     print(request.user)
     return render(request, 'index.html')
+
 
 def customerlist(request):
     template = loader.get_template('customerlist.html')
@@ -26,6 +28,20 @@ def customerlist(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
+
+def addCustomer(request):
+    if request.method == 'POST':
+        firstname = request.POST.get('firstname', None)
+        lastname = request.POST.get('lastname', None)
+        email = request.POST.get('email', None)
+        customer = 1
+        with connection.cursor() as cursor:
+            cursor.execute("INSERT INTO Person (FirstName, LastName, Email, Customer) VALUES (%s, %s, %s, %s)",
+                           (firstname, lastname, email, customer))
+            return redirect('/customerlist')
+    return render(request, 'customers/addcustomer.html')
+
+
 def findemployee(request):
     template = loader.get_template('findemployee.html')
     with connection.cursor() as cursor:
@@ -37,6 +53,7 @@ def findemployee(request):
         }
     print(row)
     return HttpResponse(template.render(context, request))
+
 
 def purchaseHistory(request):
     template = loader.get_template('purchase.html')
@@ -50,6 +67,7 @@ def purchaseHistory(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
+
 def items(request):
     template = loader.get_template('items.html')
     with connection.cursor() as cursor:
@@ -60,6 +78,7 @@ def items(request):
             'row': row,
         }
     return HttpResponse(template.render(context, request))
+
 
 def filterItem(request):
     searchWord = request.POST.get('system', None)
@@ -74,6 +93,7 @@ def filterItem(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
+
 def supplier(request):
     template = loader.get_template('supplier.html')
     print(template)
@@ -86,13 +106,16 @@ def supplier(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
+
 def deleteSupplier(request):
     if request.method == 'POST':
         supplierID = request.POST.get('deletesupplier', None)
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM Supplier WHERE SupplierID = %s", [supplierID])
+            cursor.execute(
+                "DELETE FROM Supplier WHERE SupplierID = %s", [supplierID])
             return redirect('/supplier')
-    return render(request,'suppliers/deletesupplier.html')
+    return render(request, 'suppliers/deletesupplier.html')
+
 
 def deleteItem(request):
     if request.method == 'POST':
@@ -101,6 +124,7 @@ def deleteItem(request):
             cursor.execute("DELETE FROM Item WHERE Item.ItemID = %s", [itemid])
             return redirect('/items')
     return render(request, 'items/deleteitem.html')
+
 
 def store(request):
     template = loader.get_template('store.html')
@@ -112,6 +136,7 @@ def store(request):
         }
     print(row)
     return HttpResponse(template.render(context, request))
+
 
 def rawInventory(request):
     template = loader.get_template('rawInventory.html')
@@ -137,25 +162,29 @@ def rawInventory(request):
 #     }
 #     return render(request, 'register.html', context)
 
+
 def addEmployee(request):
     form = addEmployeeForm()
     context = {
-        'form':form,
+        'form': form,
     }
     return render(request, 'addemployee.html', context)
 
+
 def addItem(request):
-    if request.method == 'POST': 
+    if request.method == 'POST':
         barcode = request.POST.get('barcode', None)
         weight = request.POST.get('weight', None)
         price = request.POST.get('price', None)
         type = request.POST.get('type', None)
         with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO Item (Barcode, Weight, Price, Type) VALUES (%s, %s, %s, %s)", (barcode, weight, price, type))
+            cursor.execute(
+                "INSERT INTO Item (Barcode, Weight, Price, Type) VALUES (%s, %s, %s, %s)", (barcode, weight, price, type))
             # cursor.execute("INSERT INTO SoldAt(StoreID, ItemID, ItemBarcode, Stock) VALUES (%s, %s, %s, %s)", storeid, itemid, barcode, stock)
             return redirect('/items')
     return render(request, 'items/additem.html')
-    
+
+
 def deleteItem(request):
     if request.method == 'POST':
         itemid = request.POST.get('deleteitem', None)
@@ -163,6 +192,7 @@ def deleteItem(request):
             cursor.execute("DELETE FROM Item WHERE Item.ItemID = %s", [itemid])
             return redirect('/items')
     return render(request, 'items/deleteitem.html')
+
 
 def addSupplier(request):
     form = addSupplierForm()
@@ -175,5 +205,3 @@ def addSupplier(request):
         'form': form,
     }
     return render(request, 'suppliers/addsupplier.html', context)
-
-
