@@ -18,9 +18,13 @@
         <div class="navbar-nav">
           <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/">Home</a>
           <a class="nav-link" href="/customerlist">Customer List</a>
+          {% if user.is_authenticated and user.is_superuser %}
           <a class="nav-link" href="/findemployee">Employees</a>
+          {% endif %}
           <a class="nav-link" href="/items">Items</a>
+          {% if user.is_authenticated and user.is_superuser %}
           <a class="nav-link" href="/supplier">Supplier List</a>
+          {% endif %}
           <a class="nav-link" href="/store">Store Locations</a>
           <a class="nav-link" href="/rawInventory">Raw Inventory</a>
           <a class="nav-link" href="/purchase">Purchases</a>
@@ -36,38 +40,3 @@
         {% endif %}
     </span>
   </nav>
-
-{% comment %} DO NOT DELETE {% endcomment %}
-
-  {% comment %} 
-<nav>
-    {% url 'index' as index_url %}
-    <span>{% if request.path == index.url %}Home{% else %} <a href="{{ index_url }}">Home</a>{% endif %}</span>
-
-    {% url 'customerlist' as customerlist_url %}
-    <span>{% if request.path == customerlist.url %}Customer List{% else %} <a href="{{ customerlist_url }}">Customer List</a>{% endif %}</span>
-    
-    {% url 'findemployee' as findemployee_url %}
-    <span>{% if request.path == findemployee.url %}Employees{% else %} <a href="{{ findemployee_url }}">Employees</a>{% endif %}</span>
-
-    {% url 'supplier' as supplier_url %}
-    <span>{% if request.path == supplier.url %}Supplier List{% else %} <a href="{{ supplier_url }}">Supplier List</a>{% endif %}</span>
-
-    {% url 'store' as store_url %}
-    <span>{% if request.path == store.url %}Store Inventory {% else %} <a href="{{ store_url }}">Store Inventory</a>{% endif %}</span>
-
-    {% url 'rawInventory' as rawInventory_url %}
-    <span>{% if request.path == rawInventory.url %}Raw Inventory {% else %} <a href="{{ rawInventory_url }}">Raw Inventory</a>{% endif %}</span>
-    
-    {% url 'purchase' as purchase_url %}
-    <span>{% if request.path == purchase.url %} Purchases {% else %} <a href="{{ purchase_url }}"> Purchases </a>{% endif %}</span>
-
-    <span style="float:right">
-        {% if user.is_authenticated %}
-            <span>Hi {{ user.username }}</span>
-            <span><a href="{% url 'logout' %}">Logout</a></span>
-        {% else %}
-            <span><a href="{% url 'login' %}">Login</a></span>
-        {% endif %}
-    </span>
-</nav> {% endcomment %}

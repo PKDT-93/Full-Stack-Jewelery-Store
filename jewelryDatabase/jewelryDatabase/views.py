@@ -10,7 +10,6 @@ from .models import Item
 from django.db import connection
 from django.contrib.auth.forms import UserCreationForm
 
-
 def index(request):
     print(request.user)
     return render(request, 'index.html')
@@ -77,6 +76,7 @@ def items(request):
         context = {
             'row': row,
         }
+    print(row)
     return HttpResponse(template.render(context, request))
 
 
@@ -93,18 +93,20 @@ def filterItem(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
-
 def supplier(request):
-    template = loader.get_template('supplier.html')
-    print(template)
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM Supplier")
-        row = cursor.fetchall()
-        context = {
-            'row': row,
-        }
-    print(row)
-    return HttpResponse(template.render(context, request))
+    if not request.user.is_superuser:
+        return redirect('/')
+    else:
+        template = loader.get_template('supplier.html')
+        print(template)
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM Supplier")
+            row = cursor.fetchall()
+            context = {
+                'row': row,
+            }
+        print(row)
+        return HttpResponse(template.render(context, request))
 
 
 def deleteSupplier(request):
@@ -162,14 +164,12 @@ def rawInventory(request):
 #     }
 #     return render(request, 'register.html', context)
 
-
 def addEmployee(request):
     form = addEmployeeForm()
     context = {
         'form': form,
     }
     return render(request, 'addemployee.html', context)
-
 
 def addItem(request):
     if request.method == 'POST':
@@ -184,7 +184,6 @@ def addItem(request):
             return redirect('/items')
     return render(request, 'items/additem.html')
 
-
 def deleteItem(request):
     if request.method == 'POST':
         itemid = request.POST.get('deleteitem', None)
@@ -192,7 +191,6 @@ def deleteItem(request):
             cursor.execute("DELETE FROM Item WHERE Item.ItemID = %s", [itemid])
             return redirect('/items')
     return render(request, 'items/deleteitem.html')
-
 
 def addSupplier(request):
     form = addSupplierForm()
