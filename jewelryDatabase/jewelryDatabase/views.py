@@ -167,7 +167,7 @@ def addEmployee(request):
     return render(request, 'addemployee.html', context)
 
 def addItem(request):
-    
+
     if request.method == 'POST':
         barcode = request.POST.get('barcode', None)
         weight = request.POST.get('weight', None)
@@ -191,7 +191,7 @@ def deleteItem(request):
 def addSupplier(request):
     if not request.user.is_superuser:
         return redirect('/')
-
+        
     form = addSupplierForm()
     if request.method == 'POST':
         form = addSupplierForm(request.POST)
