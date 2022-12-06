@@ -41,7 +41,6 @@ urlpatterns = [
     path('items/additem', views.addItem, name='addItemForm'),
     path('suppliers/addsupplier', views.addSupplier, name='addSupplier'),
     path('suppliers/deletesupplier', views.deleteSupplier, name='deleteSupplier'),
-    path('items/deleteitem', views.deleteItem, name='deleteitem'),
     path('customers/addcustomer', views.addCustomer, name='addCustomer'),
 
 ]

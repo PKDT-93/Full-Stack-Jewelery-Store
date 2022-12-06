@@ -14,7 +14,6 @@ def index(request):
     print(request.user)
     return render(request, 'index.html')
 
-
 def customerlist(request):
     template = loader.get_template('customerlist.html')
     with connection.cursor() as cursor:
@@ -44,7 +43,7 @@ def addCustomer(request):
 def findemployee(request):
     if not request.user.is_superuser:
         return redirect('/')
-        
+
     template = loader.get_template('findemployee.html')
     with connection.cursor() as cursor:
         cursor.execute(
@@ -124,19 +123,6 @@ def deleteSupplier(request):
             return redirect('/supplier')
     return render(request, 'suppliers/deletesupplier.html')
 
-
-def deleteItem(request):
-    if not request.user.is_superuser:
-        return redirect('/')
-
-    if request.method == 'POST':
-        itemid = request.POST.get('deleteitem', None)
-        with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM Item WHERE Item.ItemID = %s", [itemid])
-            return redirect('/items')
-    return render(request, 'items/deleteitem.html')
-
-
 def store(request):
     template = loader.get_template('store.html')
     with connection.cursor() as cursor:
@@ -181,9 +167,7 @@ def addEmployee(request):
     return render(request, 'addemployee.html', context)
 
 def addItem(request):
-    if not request.user.is_superuser:
-        return redirect('/')
-
+    
     if request.method == 'POST':
         barcode = request.POST.get('barcode', None)
         weight = request.POST.get('weight', None)
