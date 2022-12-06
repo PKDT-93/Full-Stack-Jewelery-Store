@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {# Load the tag library #}
 {% load bootstrap5 %}
-{% load crispy_forms_tags %}
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
@@ -9,17 +8,31 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 {% block content %}
-    <div class="container-fluid">
-        <div class="row">
-            <h2> Add New Employee </h2>
-        </div>
-        <div class="row">
-            <form method="post" novalidate>
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="btn btn-success">Save</button>
-              </form>
+<div class="container-fluid">
+    <div class="row">
+        <div class ="row">
+            <h2 class="form-signin-heading">Add New Employee</h2>
+        </row>
+      <div class="col">
+        <form id="user_form" method="post" action="" class="form" role="form">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="firstname"  value="{{user_form.firstname}}" placeholder="Enter Customer's First Name">
+            <input type="text" class="form-control" name="lastname" placeholder="Enter Customer's Last Name" required>
+            <input type="text" class="form-control" name="email" placeholder="Enter Customer's Email Address" required>      
+            <br></br>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form> 
+      </div>
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Read me</h5>
+              <p class="card-text">&#9642;Fill out all fields on the left to insert a new customer into the database.<br></br>
+                &#9642;Ensure that all fields are filled.</p>
+              <a href="/items" class="btn btn-primary">Back to Customer List</a>
             </div>
-        </div>
+          </div>
+      </div>
+    </div>
 {% endblock %}
 
