@@ -9,7 +9,6 @@ from jewelryDatabase.forms import addSupplierForm
 from .models import Item
 from django.db import connection
 from django.contrib.auth.forms import UserCreationForm
-# from jewelryDatabase.forms import addItemForm
 
 def index(request):
     print(request.user)
@@ -39,8 +38,6 @@ def findemployee(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
-
-
 def purchaseHistory(request):
     template = loader.get_template('purchase.html')
     with connection.cursor() as cursor:
@@ -53,18 +50,6 @@ def purchaseHistory(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
-# def items(request):
-#     template = loader.get_template('items.html')
-#     with connection.cursor() as cursor:
-#         cursor.execute(
-#             "SELECT Item.ItemID, Item.Barcode, Item.Weight, Item.Price, Item.Type, SoldAt.StoreID, SoldAt.Stock FROM Item, SoldAt WHERE Item.ItemID = SoldAt.ItemID")
-#         row = cursor.fetchall()
-#         context = {
-#             'row': row,
-#         }
-#     print(row)
-#     return HttpResponse(template.render(context, request))
-
 def items(request):
     template = loader.get_template('items.html')
     with connection.cursor() as cursor:
@@ -74,7 +59,6 @@ def items(request):
         context = {
             'row': row,
         }
-    print(row)
     return HttpResponse(template.render(context, request))
 
 def filterItem(request):
@@ -103,18 +87,20 @@ def supplier(request):
     return HttpResponse(template.render(context, request))
 
 def deleteSupplier(request):
-    supplierID = request.POST.get('supplierid', None)
-    print(supplierID)
-    template = loader.get_template('supplier.html')
-    with connection.cursor() as cursor:
-        cursor.execute("DELETE FROM Supplier WHERE SupplierID = %s", [supplierID])
-        row = cursor.fetchall()
-        context = {
-            'row': row,
-        }
-    print(row)
-    return HttpResponse(template.render(context, request))
+    if request.method == 'POST':
+        supplierID = request.POST.get('deletesupplier', None)
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM Supplier WHERE SupplierID = %s", [supplierID])
+            return redirect('/supplier')
+    return render(request,'suppliers/deletesupplier.html')
 
+def deleteItem(request):
+    if request.method == 'POST':
+        itemid = request.POST.get('deleteitem', None)
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM Item WHERE Item.ItemID = %s", [itemid])
+            return redirect('/items')
+    return render(request, 'items/deleteitem.html')
 
 def store(request):
     template = loader.get_template('store.html')
@@ -126,7 +112,6 @@ def store(request):
         }
     print(row)
     return HttpResponse(template.render(context, request))
-
 
 def rawInventory(request):
     template = loader.get_template('rawInventory.html')
@@ -159,17 +144,6 @@ def addEmployee(request):
     }
     return render(request, 'addemployee.html', context)
 
-# def addItem(request):
-#     form = addItemForm()
-#     if request.method == 'POST':
-#         form = addItemForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'items/additem.html', context)
-
 def addItem(request):
     if request.method == 'POST': 
         barcode = request.POST.get('barcode', None)
@@ -178,8 +152,17 @@ def addItem(request):
         type = request.POST.get('type', None)
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO Item (Barcode, Weight, Price, Type) VALUES (%s, %s, %s, %s)", (barcode, weight, price, type))
+            # cursor.execute("INSERT INTO SoldAt(StoreID, ItemID, ItemBarcode, Stock) VALUES (%s, %s, %s, %s)", storeid, itemid, barcode, stock)
             return redirect('/items')
     return render(request, 'items/additem.html')
+    
+def deleteItem(request):
+    if request.method == 'POST':
+        itemid = request.POST.get('deleteitem', None)
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM Item WHERE Item.ItemID = %s", [itemid])
+            return redirect('/items')
+    return render(request, 'items/deleteitem.html')
 
 def addSupplier(request):
     form = addSupplierForm()

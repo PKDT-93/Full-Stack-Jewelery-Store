@@ -8,11 +8,6 @@ class addEmployeeForm(ModelForm):
         model = AuthUser
         fields = ('username', 'first_name', 'password', 'email', 'is_staff', 'is_superuser')
 
-# class addItemForm(ModelForm):
-#     class Meta:
-#         model = Item
-#         fields = '__all__'
-
 class addSupplierForm(ModelForm):
     class Meta:
         model = Supplier

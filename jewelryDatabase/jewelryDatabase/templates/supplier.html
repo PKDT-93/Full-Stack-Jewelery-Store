@@ -33,8 +33,7 @@
         <form method="POST" action="/supplier">
           {% csrf_token %}
           <div class="input-group mb-3">
-            <input type="text" class="form-control form-control-sm" name="supplierid" placeholder="Type in supplier number to delete ">
-            <input class="btn btn-primary" type="submit" value="Submit">
+            <a class="btn btn-primary" href="suppliers/deletesupplier" role="button">Delete Supplier</a>
           </div>
         </form>
   </div>

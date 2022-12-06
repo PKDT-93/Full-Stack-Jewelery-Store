@@ -40,6 +40,7 @@ urlpatterns = [
     path('items/lookup', views.filterItem, name='filterItem'),
     path('items/additem', views.addItem, name='addItemForm'),
     path('suppliers/addsupplier', views.addSupplier, name='addSupplier'),
-    path('suppliers', views.deleteSupplier, name='deleteSupplier'),
-    
+    path('suppliers/deletesupplier', views.deleteSupplier, name='deleteSupplier'),
+    path('items/deleteitem', views.deleteItem, name='deleteitem'),
+
 ]
