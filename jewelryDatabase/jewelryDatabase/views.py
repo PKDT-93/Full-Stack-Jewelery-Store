@@ -244,15 +244,14 @@ def addSupplier(request):
     if not request.user.is_superuser:
         return redirect('/')
     if request.method == 'POST':
-        form = addSupplierForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('supplier')
-    context = {
-        'form': form,
-    }
-    return render(request, 'suppliers/addsupplier.html', context)
-
+        suppliername = request.POST.get('SupplierName', None)
+        supplieremail = request.POST.get('SupplierEmail', None)
+        with connection.cursor() as cursor: 
+            cursor.execute(
+                "INSERT INTO Supplier (SupplierName, SupplierEmail) VALUES (%s, %s)", (suppliername, supplieremail)
+            )
+            return redirect('/supplier')
+    return render(request, 'suppliers/addsupplier.html')
 
 def addGem(request):
     if request.method == 'POST':
