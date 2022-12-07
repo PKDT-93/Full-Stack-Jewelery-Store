@@ -78,8 +78,6 @@ def addpurchase(request):
             return redirect('/purchase')
     return render(request, 'purchase/addPurchase.html')
 
-
-
 def items(request):
     template = loader.get_template('items.html')
     with connection.cursor() as cursor:
