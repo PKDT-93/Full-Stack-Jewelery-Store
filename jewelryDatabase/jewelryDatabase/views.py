@@ -214,7 +214,7 @@ def updateEmployeeEmail(request):
         with connection.cursor() as cursor:
             cursor.execute("UPDATE Person SET Email = %s WHERE ID = %s", (email,id))
             return redirect('/findemployee')
-    return render(request, 'customers/updateemail.html')
+    return render(request, 'employees/updateemail.html')
 
 def addItem(request):
     if request.method == 'POST':
