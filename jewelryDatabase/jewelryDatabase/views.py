@@ -159,12 +159,24 @@ def rawInventory(request):
 #     }
 #     return render(request, 'register.html', context)
 
-# def addEmployee(request):
-#     form = addEmployeeForm()
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'addemployee.html', context)
+def addEmployee(request):
+    if not request.user.is_superuser:
+        return redirect('/')
+    if request.method == 'POST':
+        firstname = request.POST.get('firstname', None)
+        lastname = request.POST.get('lastname', None)
+        email = request.POST.get('email', None)
+        storeid = request.POST.get('storeid', None)
+        ssn = request.POST.get('ssn', None)
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO Person (FirstName, LastName, Email, Customer) Values (%s, %s, %s, %s)", (firstname, lastname, email, 0)
+            )
+            val = cursor.fetchone()
+            output = int (val[0])
+            cursor.execute("INSERT INTO Employee (StoreID, PersonID, ESSN) Values (%s, %s, %s)", (storeid, output, ssn))
+            return redirect('/employee')
+    return render(request, 'employees/addemployee.html')
 
 def addItem(request):
     if request.method == 'POST':
@@ -177,7 +189,6 @@ def addItem(request):
         with connection.cursor() as cursor:
             cursor.execute(
                 "INSERT INTO Item (Barcode, Weight, Price, Type) VALUES (%s, %s, %s, %s)", (barcode, weight, price, type))
-            # cursor.execute("INSERT INTO SoldAt(StoreID, ItemID, ItemBarcode, Stock) VALUES (%s, %s, %s, %s)", storeid, itemid, barcode, stock)
             cursor.execute("SELECT ItemID FROM Item WHERE Item.Barcode = %s", [barcode])
             val = cursor.fetchone()
             output = int (val[0])
@@ -197,14 +208,10 @@ def deleteItem(request):
 def addSupplier(request):
     if not request.user.is_superuser:
         return redirect('/')
-        
-    form = addSupplierForm()
     if request.method == 'POST':
-        form = addSupplierForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('supplier')
-    context = {
-        'form': form,
-    }
-    return render(request, 'suppliers/addsupplier.html', context)
+        suppliername = request.POST.get('SupplierName')
+        supplierEmail = request.POST.get('SupplierEmail')
+        with connection.cursor() as cursor:
+            cursor.execute("INSERT INTO Supplier(SupplierName, SupplierEmail) Values (%s, %s)", (suppliername, supplierEmail))
+            return redirect('/supplier')
+    return render(request, 'suppliers/addsupplier.html')
