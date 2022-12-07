@@ -5,7 +5,6 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.template import loader
-from jewelryDatabase.forms import addSupplierForm
 from .models import Item
 from django.db import connection
 from django.contrib.auth.forms import UserCreationForm
@@ -25,7 +24,6 @@ def customerlist(request):
         }
     print(row)
     return HttpResponse(template.render(context, request))
-
 
 def addCustomer(request):
     if request.method == 'POST':
@@ -68,7 +66,6 @@ def purchaseHistory(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
-
 def items(request):
     template = loader.get_template('items.html')
     with connection.cursor() as cursor:
@@ -80,7 +77,6 @@ def items(request):
         }
     print(row)
     return HttpResponse(template.render(context, request))
-
 
 def filterItem(request):
     searchWord = request.POST.get('system', None)
@@ -146,19 +142,6 @@ def rawInventory(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
-# def register(request):
-#     if request.POST == 'POST':
-#         form = UserCreationForm()
-#         if form.is_valid():
-#             form.save()
-#         messages.success(request, 'Account created successfully')
-#     else:
-#         form = UserCreationForm()
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'register.html', context)
-
 def addEmployee(request):
     form = addEmployeeForm()
     context = {
@@ -167,7 +150,6 @@ def addEmployee(request):
     return render(request, 'addemployee.html', context)
 
 def addItem(request):
-
     if request.method == 'POST':
         barcode = request.POST.get('barcode', None)
         weight = request.POST.get('weight', None)
@@ -191,14 +173,12 @@ def deleteItem(request):
 def addSupplier(request):
     if not request.user.is_superuser:
         return redirect('/')
-        
-    form = addSupplierForm()
+
     if request.method == 'POST':
-        form = addSupplierForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('supplier')
-    context = {
-        'form': form,
-    }
-    return render(request, 'suppliers/addsupplier.html', context)
+        name = request.POST.get('SupplierName', None)
+        email = request.POST.get('SupplierEmail', None)
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO Supplier (SupplierName, SupplierEmail) VALUES (%s, %s)", (name, email))
+            return redirect('/supplier')
+    return render(request, 'suppliers/addsupplier.html')
