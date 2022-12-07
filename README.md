@@ -17,12 +17,11 @@ Once you have naviated to /jewelryDatabase, please do the following:
 
 2. Once you have created the virtual environment type `source env/bin/activate` in terminal to activate the virtual environment.
 
-2. Once you are in the virutal environment type `python -m pip install Django` in terminal to install the Django framework.
+3. Once you are in the virutal environment type `python -m pip install Django` in terminal to install the Django framework. This project requires `django-bootstrap-v5` in order to run, you may install any dependencies by typing `pip install (dependency name)`. To see all dependencies, please view the `requirements.txt` file.
+   
+4. To run the server type `python manage.py runserver`.
 
-3. To run the server type `python manage.py runserver`.
-    - This project requires `django-bootstrap-v5` in order to run, you may install any dependencies by typing `pip install (dependency)`. To see all dependencies, please view the `requirements.txt` file.
-
-4. Navigate to http://127.0.0.1:8000/ in your web browser to access the server.
+5. Navigate to http://127.0.0.1:8000/ in your web browser to access the server.
 
 ## Login Guide
 
