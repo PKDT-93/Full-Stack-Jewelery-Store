@@ -18,7 +18,11 @@
             {% csrf_token %}
             <input type="text" class="form-control" name="SupplierName"  value="{{user_form.SupplierName}}" placeholder="Enter the Supplier Name" required>
             <input type="text" class="form-control" name="SupplierEmail" placeholder="Enter Supplier Email Address" required>
-            <br></br>
+            <div class="input-group">
+              <input type="text" class="form-control" name = "areacode" placeholder="Enter area code" required>
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" name="phonenumber" placeholder="Enter supplier phone number excluding area code" required>
+            </div>
             <button class="btn btn-primary" type="submit">Save</button>
         </form> 
       </div>
