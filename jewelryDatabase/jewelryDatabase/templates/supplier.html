@@ -18,22 +18,24 @@
   <div class="col-sm">
   </div>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Supplier ID</th>
-      <th scope="col">Company Name</th>
-      <th scope="col">Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for x in row %}
-    <tr>
-      {% for col in x %}
-      <td>{{ col }}</td>
+<div class="container-fluid">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Supplier ID</th>
+        <th scope="col">Company Name</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for x in row %}
+      <tr>
+        {% for col in x %}
+        <td>{{ col }}</td>
+        {% endfor %}
+      </tr>
       {% endfor %}
-    </tr>
-    {% endfor %}
-  </table>
-</tbody>
+    </tbody>
+    </table>
+</div>
 {% endblock content %}
