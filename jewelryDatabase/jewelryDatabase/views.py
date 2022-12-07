@@ -246,7 +246,7 @@ def addSupplier(request):
     if request.method == 'POST':
         suppliername = request.POST.get('SupplierName', None)
         supplieremail = request.POST.get('SupplierEmail', None)
-        areadcode = request.POST.get('areacode', None)
+        areacode = request.POST.get('areacode', None)
         supplierphone = request.POST.get('phonenumber', None)
         with connection.cursor() as cursor: 
             cursor.execute(
@@ -255,7 +255,7 @@ def addSupplier(request):
             cursor.execute("SELECT SupplierID FROM Supplier WHERE Supplier.SupplierEmail = %s", [supplieremail])
             val = cursor.fetchone()
             output = int (val[0])
-            cursor.execute("INSERT INTO SupplierPhone(SupplierID, PhoneNo, AreaCode) VALUES(%s, %s, %s)", (val, supplierphone, areadcode))
+            cursor.execute("INSERT INTO SupplierPhone(SupplierID, PhoneNo, AreaCode) VALUES (%s, %s, %s)", (output, supplierphone, areacode))
             return redirect('/supplier')
     return render(request, 'suppliers/addsupplier.html')
 
