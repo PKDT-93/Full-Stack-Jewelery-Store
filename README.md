@@ -15,7 +15,7 @@ Once you have naviated to /jewelryDatabase, please do the following:
 
 1. Type `python3 -m venv env` in terminal to prepare the python virtual environment.
 
-2. Once you have created the virtual environment type `source env/bin/activate` in terminal to activate the virtual environment.
+2. Once you have created the virtual environment type `source env/bin/activate` in terminal to activate the virtual environment. On windows machines type `env\Scripts\activate`.
 
 3. Once you are in the virutal environment type `python -m pip install Django` in terminal to install the Django framework. 
 
