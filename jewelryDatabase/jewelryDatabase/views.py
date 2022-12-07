@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.template import loader
+#from jewelryDatabase.forms import addSupplierForm
 from .models import Item
 from django.db import connection
 from django.contrib.auth.forms import UserCreationForm
@@ -24,6 +25,7 @@ def customerlist(request):
         }
     print(row)
     return HttpResponse(template.render(context, request))
+
 
 def addCustomer(request):
     if request.method == 'POST':
@@ -66,17 +68,19 @@ def purchaseHistory(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
+
 def items(request):
     template = loader.get_template('items.html')
     with connection.cursor() as cursor:
         cursor.execute(
-            "SELECT * FROM Item")
+            "SELECT Item.ItemID, Item.Barcode, Item.Weight, Item.Price, Item.Type, SoldAt.StoreID, SoldAt.Stock FROM Item, SoldAt WHERE SoldAt.ItemID = Item.ItemID")
         row = cursor.fetchall()
         context = {
             'row': row,
         }
     print(row)
     return HttpResponse(template.render(context, request))
+
 
 def filterItem(request):
     searchWord = request.POST.get('system', None)
@@ -142,12 +146,25 @@ def rawInventory(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
-def addEmployee(request):
-    form = addEmployeeForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'addemployee.html', context)
+# def register(request):
+#     if request.POST == 'POST':
+#         form = UserCreationForm()
+#         if form.is_valid():
+#             form.save()
+#         messages.success(request, 'Account created successfully')
+#     else:
+#         form = UserCreationForm()
+#     context = {
+#         'form': form
+#     }
+#     return render(request, 'register.html', context)
+
+# def addEmployee(request):
+#     form = addEmployeeForm()
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'addemployee.html', context)
 
 def addItem(request):
     if request.method == 'POST':
@@ -155,10 +172,17 @@ def addItem(request):
         weight = request.POST.get('weight', None)
         price = request.POST.get('price', None)
         type = request.POST.get('type', None)
+        stock = request.POST.get('stock', None)
+        store = request.POST.get('store', None)
         with connection.cursor() as cursor:
             cursor.execute(
                 "INSERT INTO Item (Barcode, Weight, Price, Type) VALUES (%s, %s, %s, %s)", (barcode, weight, price, type))
             # cursor.execute("INSERT INTO SoldAt(StoreID, ItemID, ItemBarcode, Stock) VALUES (%s, %s, %s, %s)", storeid, itemid, barcode, stock)
+            cursor.execute("SELECT ItemID FROM Item WHERE Item.Barcode = %s", [barcode])
+            val = cursor.fetchone()
+            output = int (val[0])
+            print(output)
+            cursor.execute("INSERT INTO SoldAt(StoreID, ItemID, ItemBarcode, Stock) VALUES (%s, %s, %s, %s)", (store, output, barcode, stock))
             return redirect('/items')
     return render(request, 'items/additem.html')
 
@@ -173,12 +197,14 @@ def deleteItem(request):
 def addSupplier(request):
     if not request.user.is_superuser:
         return redirect('/')
-
+        
+    form = addSupplierForm()
     if request.method == 'POST':
-        name = request.POST.get('SupplierName', None)
-        email = request.POST.get('SupplierEmail', None)
-        with connection.cursor() as cursor:
-            cursor.execute(
-                "INSERT INTO Supplier (SupplierName, SupplierEmail) VALUES (%s, %s)", (name, email))
-            return redirect('/supplier')
-    return render(request, 'suppliers/addsupplier.html')
+        form = addSupplierForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('supplier')
+    context = {
+        'form': form,
+    }
+    return render(request, 'suppliers/addsupplier.html', context)

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {# Load the tag library #}
 {% load bootstrap5 %}
+
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
@@ -18,7 +19,9 @@
             {% csrf_token %}
             <input type="text" class="form-control" name="barcode"  value="{{user_form.barcode}}" placeholder="Enter Unique Barcode Number">
             <input type="text" class="form-control" name="weight" placeholder="Enter Item Weight" required>
-            <input type="text" class="form-control" name="price" placeholder="Enter Item Price" required>      
+            <input type="text" class="form-control" name="price" placeholder="Enter Item Price" required> 
+            <input type="text" class="form-control" name="stock" placeholder="Enter the current stock of this Item" required> 
+            <input type="text" class="form-control" name="store" placeholder="Enter Store where Item is Available" required>            
             <input type="text" class="form-control" name="type" placeholder="Enter Item Type I.E (Pendant, Ring, Necklace, Bracelet, Watch, Other)" required>
             <br></br>
             <button class="btn btn-primary" type="submit">Save</button>
