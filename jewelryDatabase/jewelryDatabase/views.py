@@ -233,6 +233,7 @@ def addItem(request):
             return redirect('/items')
     return render(request, 'items/additem.html')
 
+
 def changeInventory(request):
     if request.method == 'POST':
         itemid = request.POST.get('itemid', None)
