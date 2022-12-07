@@ -38,6 +38,9 @@ urlpatterns = [
     path('suppliers/addsupplier', views.addSupplier, name='addSupplier'),
     path('suppliers/deletesupplier', views.deleteSupplier, name='deleteSupplier'),
     path('customers/addcustomer', views.addCustomer, name='addCustomer'),
-    path('employees/addemployee', views.addEmployee, name='addEmployee')
-
+    path('employees/addemployee', views.addEmployee, name='addEmployee'),
+    path('employees/deleteEmployee', views.deleteEmployee, name='deleteEmployee'),
+    path('customers/updateemail', views.updateEmail, name='updateEmail'),
+    path('employees/updateemail', views.updateEmployeeEmail, name='updateEmployeeEmail'),
+    path('items/changeinventory', views.changeInventory, name='changeInventory'),
 ]

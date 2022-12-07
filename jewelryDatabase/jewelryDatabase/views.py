@@ -1,14 +1,10 @@
 from pyexpat.errors import messages
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.template import loader
-#from jewelryDatabase.forms import addSupplierForm
-from .models import Item
 from django.db import connection
-from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
     print(request.user)
@@ -25,7 +21,6 @@ def customerlist(request):
         }
     print(row)
     return HttpResponse(template.render(context, request))
-
 
 def addCustomer(request):
     if request.method == 'POST':
@@ -110,7 +105,6 @@ def supplier(request):
         print(row)
         return HttpResponse(template.render(context, request))
 
-
 def deleteSupplier(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -146,19 +140,6 @@ def rawInventory(request):
     print(row)
     return HttpResponse(template.render(context, request))
 
-# def register(request):
-#     if request.POST == 'POST':
-#         form = UserCreationForm()
-#         if form.is_valid():
-#             form.save()
-#         messages.success(request, 'Account created successfully')
-#     else:
-#         form = UserCreationForm()
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'register.html', context)
-
 def addEmployee(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -180,6 +161,38 @@ def addEmployee(request):
             return redirect('/employee')
     return render(request,'employees/addemployee.html')
 
+def deleteEmployee(request):
+    if not request.user.is_superuser:
+        return redirect('/')
+    if request.method == 'POST':
+        id = request.POST.get('personid', None)
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM Employee WHERE Employee.PersonID = %s", [id])
+            cursor.execute("UPDATE Person SET Customer = 1 WHERE ID = %s", [id])
+            return redirect('/findemployee')
+    return render(request, 'employees/deleteEmployee.html')
+
+def updateEmail(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        email = request.POST.get('email')
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE Person SET Email = %s WHERE ID = %s", (email,id))
+            return redirect('/customerlist')
+    return render(request, 'customers/updateemail.html')
+
+def updateEmployeeEmail(request):
+    if not request.user.is_superuser:
+        return redirect('/')
+        
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        email = request.POST.get('email')
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE Person SET Email = %s WHERE ID = %s", (email,id))
+            return redirect('/findemployee')
+    return render(request, 'customers/updateemail.html')
+
 def addItem(request):
     if request.method == 'POST':
         barcode = request.POST.get('barcode', None)
@@ -199,13 +212,23 @@ def addItem(request):
             return redirect('/items')
     return render(request, 'items/additem.html')
 
-def deleteItem(request):
+def changeInventory(request):
     if request.method == 'POST':
-        itemid = request.POST.get('deleteitem', None)
+        itemid = request.POST.get('itemid', None)
+        storeid = request.POST.get('storeid', None)
+        amount = request.POST.get('amount', None)
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM Item WHERE Item.ItemID = %s", [itemid])
+            cursor.execute("UPDATE SoldAt SET Stock = %s WHERE StoreID = %s AND ItemID = %s", (amount, storeid, itemid))
             return redirect('/items')
-    return render(request, 'items/deleteitem.html')
+    return render(request, 'items/changeinventory.html')
+
+# def deleteItem(request):
+#     if request.method == 'POST':
+#         itemid = request.POST.get('deleteitem', None)
+#         with connection.cursor() as cursor:
+#             cursor.execute("DELETE FROM Item WHERE Item.ItemID = %s", [itemid])
+#             return redirect('/items')
+#     return render(request, 'items/deleteitem.html')
 
 def addSupplier(request):
     if not request.user.is_superuser:
