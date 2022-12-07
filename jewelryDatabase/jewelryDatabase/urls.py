@@ -24,6 +24,7 @@ from django.views.generic.base import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name="index.html"), name="index"),
+     path('addresses', views.address, name='adresses'),
     path('purchase', views.purchaseHistory, name='purchase'),
     path('purchase/addPurchase', views.addpurchase, name='addPurchase'),
     path('rawInventory', views.rawInventory, name='rawInventory'),
@@ -33,7 +34,9 @@ urlpatterns = [
     path('supplier', views.supplier, name='supplier'),
     path('customerlist', views.customerlist, name='customerlist'),
     path('findemployee', views.findemployee, name='findemployee'),
+    path('managers', views.managers, name='managers'),
     path('items', views.items, name='items'),
+    path('services', views.services, name='services'),
     path('accounts/login', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),
     path('accounts/logout', auth_views.LogoutView.as_view(), name="logout"),
     path('items/lookup', views.filterItem, name='filterItem'),

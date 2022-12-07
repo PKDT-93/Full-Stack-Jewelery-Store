@@ -19,7 +19,6 @@ def customerlist(request):
         context = {
             'row': row,
         }
-    print(row)
     return HttpResponse(template.render(context, request))
 
 def addCustomer(request):
@@ -42,12 +41,12 @@ def findemployee(request):
     template = loader.get_template('findemployee.html')
     with connection.cursor() as cursor:
         cursor.execute(
-            "SELECT Employee.StoreID, Employee.PersonID, Employee.ESSN, Person.FirstName, Person.LastName, Person.Email FROM Employee, Person WHERE Employee.PersonID = ID")
+            """SELECT Employee.StoreID, Employee.PersonID, Employee.ESSN, Person.FirstName, Person.LastName, Person.Email
+            FROM Employee, Person, PersonAddress WHERE Employee.PersonID = ID AND PersonAddress.PersonID = Employee.PersonID""")
         row = cursor.fetchall()
         context = {
             'row': row,
         }
-    print(row)
     return HttpResponse(template.render(context, request))
 
 
@@ -62,7 +61,6 @@ def purchaseHistory(request):
         context = {
             'row': row,
         }
-    print(row)
     return HttpResponse(template.render(context, request))
 
 def addpurchase(request):
@@ -91,7 +89,6 @@ def items(request):
         context = {
             'row': row,
         }
-    print(row)
     return HttpResponse(template.render(context, request))
 
 
@@ -105,7 +102,6 @@ def filterItem(request):
         context = {
             'row': row,
         }
-    print(row)
     return HttpResponse(template.render(context, request))
 
 def supplier(request):
@@ -113,14 +109,12 @@ def supplier(request):
         return redirect('/')
     else:
         template = loader.get_template('supplier.html')
-        print(template)
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM Supplier")
+            cursor.execute("SELECT * FROM Supplier, SupplierPhone WHERE Supplier.SupplierID = SupplierPhone.SupplierID GROUP BY Supplier.SupplierID")
             row = cursor.fetchall()
             context = {
                 'row': row,
             }
-        print(row)
         return HttpResponse(template.render(context, request))
 
 def deleteSupplier(request):
@@ -138,12 +132,11 @@ def deleteSupplier(request):
 def store(request):
     template = loader.get_template('store.html')
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM Store")
+        cursor.execute("SELECT * FROM Store, StorePhone WHERE Store.StoreID = StorePhone.StoreID")
         row = cursor.fetchall()
         context = {
             'row': row,
         }
-    print(row)
     return HttpResponse(template.render(context, request))
 
 
@@ -158,7 +151,6 @@ def rawInventory(request):
         context = {
             'row': row,
         }
-    print(row)
     return HttpResponse(template.render(context, request))
 
 def addEmployee(request):
@@ -177,7 +169,6 @@ def addEmployee(request):
             cursor.execute("SELECT ID FROM Person WHERE Person.Email = %s", [email])
             val = cursor.fetchone()
             output = int (val[0])
-            print(output)
             cursor.execute("INSERT INTO Employee (StoreID, PersonID, ESSN) Values (%s, %s, %s)", (storeid, output, ssn))
             return redirect('/employee')
     return render(request,'employees/addemployee.html')
@@ -228,7 +219,6 @@ def addItem(request):
             cursor.execute("SELECT ItemID FROM Item WHERE Item.Barcode = %s", [barcode])
             val = cursor.fetchone()
             output = int (val[0])
-            print(output)
             cursor.execute("INSERT INTO SoldAt(StoreID, ItemID, ItemBarcode, Stock) VALUES (%s, %s, %s, %s)", (store, output, barcode, stock))
             return redirect('/items')
     return render(request, 'items/additem.html')
@@ -297,3 +287,35 @@ def addMetal(request):
             return redirect('/rawInventory')
     return render(request, 'rawInventory/addMetal.html')
 
+
+def address(request):
+    template = loader.get_template('addresses.html')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM PersonAddress")
+        row = cursor.fetchall()
+        context = {
+            'row': row,
+        }
+    return HttpResponse(template.render(context, request))
+
+
+def managers(request):
+    template = loader.get_template('managers.html')
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT P.ID, SM.StoreID, P.FirstName, P.LastName, P.Email, M.MSSN, M.CreditCard
+        FROM StoreManages AS SM JOIN Manager AS M ON M.PersonID = SM.ManagerID JOIN Person as P ON M.PersonID = P.ID""")
+        row = cursor.fetchall()
+        context = {
+            'row': row,
+        }
+    return HttpResponse(template.render(context, request))
+
+def services(request):
+    template = loader.get_template('services.html')
+    with connection.cursor() as cursor:
+        cursor.execute("Select * FROM Service")
+        row = cursor.fetchall()
+        context = {
+            'row': row,
+        }
+    return HttpResponse(template.render(context, request))

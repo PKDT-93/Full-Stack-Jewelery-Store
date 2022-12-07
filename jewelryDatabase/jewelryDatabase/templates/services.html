@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Store Inventory{% endblock %}
+{% block title %}Services{% endblock %}
 
 {% block content %}
 
-<h1>Store Locations and Numbers</h1>
+<h1>Services</h1>
 {% comment %} <table border="1">
     {% for x in row %}
     <tr>
@@ -17,15 +17,12 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">StoreID</th>
-                <th scope="col">Number</th>
-                <th scope="col">City</th>
-                <th scope="col">Province</th>
-                <th scope="col">Postal Code</th>
-                <th scope="col">Street</th>
-                <th scope="col">StoreID</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Area Code</th>
+                <th scope="col">ServiceID</th>
+                <th scope="col">Service Type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Description</th>
+                <th scope="col">Date Started</th>
+                <th scope="col">Date Ended</th>
               </tr>
             </thead>
             <tbody>
