@@ -5,13 +5,28 @@
 {% block content %}
 
 <h1>Raw Inventory</h1>
+    <div class="row">
+      <div class="col-sm">
+        <a class="btn btn-primary" href="rawInventory/addGem" role="button">Add Gem</a>
+      </div>
+      <div class="col-sm">
+        <a class="btn btn-primary" href="rawInventory/addMetal" role="button">Add Metal</a> 
+      </div>
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">Supplier ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Weight</th>
-                <th scope="col">Price</th>
+                <th scope="col">Supplier Name</th>
+                <th scope="col">BatchNo</th>
+                <th scope="col">Metal Type</th>
+                <th scope="col">Quantity (Metal)</th>
+                <th scope="col">Price (Metal)</th>
+                <th scope="col">Karat</th>
+                <th scope="col">CertificateNo</th>
+                <th scope="col">Gem Type</th>
+                <th scope="col">Carat</th>
+                <th scope="col">Cut</th>
+                <th scope="col">Price (Gem)</th>
               </tr>
             </thead>
             <tbody>

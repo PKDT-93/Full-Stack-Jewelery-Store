@@ -60,13 +60,31 @@ def purchaseHistory(request):
     template = loader.get_template('purchase.html')
     with connection.cursor() as cursor:
         cursor.execute(
-            "SELECT * FROM Purchase JOIN Person ON Person.ID = Purchase.PersonID")
+            """SELECT P.FirstName, P.LastName, P.Email, P.RecieptID, P.Price, P.PaymentTender, P.Warranty, P.PaymentDate, P.TimeOfPay, P.StoreID, P.PersonID, PI.ItemID, PI.ItemBarcode, PS.ServiceID
+                FROM (SELECT Person.FirstName, Person.LastName, Person.Email, Purchase.RecieptID, Purchase.Price, Purchase.PaymentTender, Purchase.Warranty, Purchase.PaymentDate, Purchase.TimeOfPay, Purchase.StoreID, Purchase.PersonID
+                FROM Purchase JOIN Person ON Person.ID = Purchase.PersonID) AS P LEFT OUTER JOIN PurchaseService AS PS ON PS.RecieptID = P.RecieptID LEFT OUTER JOIN PurchaseItem AS PI ON P.RecieptID = PI.RecieptID GROUP BY P.RecieptID, P.PersonID""")
         row = cursor.fetchall()
         context = {
             'row': row,
         }
     print(row)
     return HttpResponse(template.render(context, request))
+
+def addpurchase(request):
+    if request.method == 'POST':
+        recieptID = request.POST.get('recieptID', None)
+        price = request.POST.get('price', None)
+        warranty = request.POST.get('warranty', None)
+        paymentTender = request.POST.get('paymentTender', None)
+        store = request.POST.get('storeID', None)
+        person = request.POST.get('personID', None)
+        with connection.cursor() as cursor:
+            date = cursor.execute("SELECT DATE('now')")
+            cursor.execute(
+                "INSERT INTO Purchase (RecieptID, Price, PaymentTender, Warranty, PaymentDate, TimeOfPay, StoreID, PersonID) VALUES (%s, %s, %s, %s, DATE('now'), TIME(), %s, %s)", (recieptID, price, paymentTender, warranty, store, person))
+            return redirect('/purchase')
+    return render(request, 'purchase/addPurchase.html')
+
 
 
 def items(request):
@@ -138,7 +156,10 @@ def store(request):
 def rawInventory(request):
     template = loader.get_template('rawInventory.html')
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM Gems")
+        cursor.execute("""SELECT S.SupplierID, S.SupplierName, M.BatchNo, M.MetalType, M.Quantity, M.Price, M.Karat, G.CertificateNo, G.GemType, G.Carat, G.Cut, G.Price FROM
+        (SELECT * FROM Supplier, Supplies WHERE Supplier.SupplierID = Supplies.SupplierID) AS S 
+        LEFT OUTER JOIN Metals AS M ON M.BatchNo = S.BatchNo 
+        LEFT OUTER JOIN Gems AS G ON G.CertificateNo = S.CertificateNo""")
         row = cursor.fetchall()
         context = {
             'row': row,
@@ -208,3 +229,36 @@ def addSupplier(request):
         'form': form,
     }
     return render(request, 'suppliers/addsupplier.html', context)
+
+
+def addGem(request):
+    if request.method == 'POST':
+        ID = request.POST.get('ID', None)
+        no = request.POST.get('CertificateNo', None)
+        type = request.POST.get('GemType', None)
+        carat = request.POST.get('Carat', None)
+        cut = request.POST.get('Cut', None)
+        price = request.POST.get('Price', None)
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO Gems (CertificateNo, GemType, Carat, Cut, Price) VALUES (%s, %s, %s, %s, %s)", (no, type, carat, cut, price))
+            cursor.execute("INSERT INTO Supplies (SupplierID, CertificateNo, BatchNo) VALUES (%s, %s, NULL)", (ID, no))
+            return redirect('/rawInventory')
+    return render(request, 'rawInventory/addGem.html')
+
+
+def addMetal(request):
+    if request.method == 'POST':
+        ID = request.POST.get('ID', None)
+        no = request.POST.get('CertificateNo', None)
+        type = request.POST.get('MetalType', None)
+        quantity = request.POST.get('quantity', None)
+        karat = request.POST.get('karat', None)
+        price = request.POST.get('Price', None)
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO Metals (BatchNo, MetalType, Quantity, Price, Karat) VALUES (%s, %s, %s, %s, %s)", (no, type, quantity, karat, price))
+            cursor.execute("INSERT INTO Supplies (SupplierID, CertificateNo, BatchNo) VALUES (%s, NULL, %s)", (ID, no))
+            return redirect('/rawInventory')
+    return render(request, 'rawInventory/addMetal.html')
+

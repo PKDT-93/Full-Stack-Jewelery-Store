@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{# Load the tag library #}
+{% load bootstrap5 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class ="row">
+            <h2 class="form-signin-heading">Add Metal</h2>
+        </row>
+      <div class="col">
+        <form id="user_form" method="post" action="" class="form" role="form">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="ID" placeholder="Enter Supplier ID">
+            <input type="text" class="form-control" name="CertificateNo" placeholder="Enter Metal BatchNo" required>
+            <input type="text" class="form-control" name="MetalType" placeholder="Enter Type of Metal" required>
+            <input type="text" class="form-control" name="quantity" placeholder="Enter quantity" required>  
+            <input type="text" class="form-control" name="karat" placeholder="Enter Karats" required> 
+            <input type="text" class="form-control" name="Price" placeholder="Enter Price" required>
+            <br></br>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form> 
+      </div>
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Read me</h5>
+              <p class="card-text">&#9642;Fill out all fields on the left to insert a new raw item into the database.<br></br>
+                &#9642;Ensure that all fields are filled and SupplierID exists</p>
+              <a href="/rawInventory" class="btn btn-primary">Back to Raw Inventory</a>
+            </div>
+          </div>
+      </div>
+    </div>
+{% endblock %}
+

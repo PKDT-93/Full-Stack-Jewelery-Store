@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{# Load the tag library #}
+{% load bootstrap5 %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class ="row">
+            <h2 class="form-signin-heading">Add New Purchase</h2>
+        </row>
+      <div class="col">
+        <form id="user_form" method="post" action="" class="form" role="form">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="recieptID" placeholder="Enter RecieptID">
+            <input type="text" class="form-control" name="price" placeholder="Enter Price" required>
+            <input type="text" class="form-control" name="warranty" placeholder="Enter Warranty Length (years)" required>
+            <input type="text" class="form-control" name="paymentTender" placeholder="Enter Payment Tender" required>
+            <input type="text" class="form-control" name="storeID" placeholder="Enter StoreID" required>   
+            <input type="text" class="form-control" name="personID" placeholder="Enter PersonID if it exists" >        
+            <br></br>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form> 
+      </div>
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Read me</h5>
+              <p class="card-text">&#9642;Fill out all fields on the left to insert a new purchase into the database.<br></br>
+                &#9642;Ensure that all fields are filled.</p>
+              <a href="/purchase" class="btn btn-primary">Back to Purchase History</a>
+            </div>
+          </div>
+      </div>
+    </div>
+{% endblock %}
+
