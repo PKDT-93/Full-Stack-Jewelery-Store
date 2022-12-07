@@ -6,10 +6,12 @@ from django.http import HttpResponse
 from django.template import loader
 from django.db import connection
 
+# Home Page
 def index(request):
     print(request.user)
     return render(request, 'index.html')
 
+# Retrieves list of customers
 def customerlist(request):
     template = loader.get_template('customerlist.html')
     with connection.cursor() as cursor:
@@ -21,6 +23,7 @@ def customerlist(request):
         }
     return HttpResponse(template.render(context, request))
 
+# Add customer function, render webpage when url is accessed, when form is POSTED insert into Person Table as a customer
 def addCustomer(request):
     if request.method == 'POST':
         firstname = request.POST.get('firstname', None)
@@ -33,6 +36,7 @@ def addCustomer(request):
             return redirect('/customerlist')
     return render(request, 'customers/addcustomer.html')
 
+# View Employee table function, only accessible to managers.
 def findemployee(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -48,6 +52,7 @@ def findemployee(request):
         }
     return HttpResponse(template.render(context, request))
 
+# Purchase history query through mulitple joins from various table and render result on webpage
 def purchaseHistory(request):
     template = loader.get_template('purchase.html')
     with connection.cursor() as cursor:
@@ -61,6 +66,7 @@ def purchaseHistory(request):
         }
     return HttpResponse(template.render(context, request))
 
+# Add new purchase function, render webpage when url is accessed, when form is POSTED insert into Purchase Table with form values passed as string value.
 def addpurchase(request):
     if request.method == 'POST':
         recieptID = request.POST.get('recieptID', None)
@@ -76,6 +82,7 @@ def addpurchase(request):
             return redirect('/purchase')
     return render(request, 'purchase/addPurchase.html')
 
+# Render all items that have inventory & store located where it is sold on page when accessed
 def items(request):
     template = loader.get_template('items.html')
     with connection.cursor() as cursor:
@@ -87,7 +94,7 @@ def items(request):
         }
     return HttpResponse(template.render(context, request))
 
-
+# When user searches for an item type, redirect to new lookup page where all items of that type are queried and displayed
 def filterItem(request):
     searchWord = request.POST.get('system', None)
     template = loader.get_template('items/lookup.html')
@@ -100,6 +107,7 @@ def filterItem(request):
         }
     return HttpResponse(template.render(context, request))
 
+# Page only accessible to managers, query all listed suppliers in the databse with a listed id, name, email, areacode, phone number
 def supplier(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -113,6 +121,8 @@ def supplier(request):
             }
         return HttpResponse(template.render(context, request))
 
+# Page only accessible to managers, grabs supplierID from user form and passes into deletion query as a string argument and redirect to supplier page
+# Render webpage otherwise if there is no POST request.
 def deleteSupplier(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -125,6 +135,7 @@ def deleteSupplier(request):
             return redirect('/supplier')
     return render(request, 'suppliers/deletesupplier.html')
 
+# Render store location page 
 def store(request):
     template = loader.get_template('store.html')
     with connection.cursor() as cursor:
@@ -135,7 +146,7 @@ def store(request):
         }
     return HttpResponse(template.render(context, request))
 
-
+# Render raw inventory page via outerjoins from tables containing Metals/Gems
 def rawInventory(request):
     template = loader.get_template('rawInventory.html')
     with connection.cursor() as cursor:
@@ -149,6 +160,8 @@ def rawInventory(request):
         }
     return HttpResponse(template.render(context, request))
 
+# Page accessible to managers only, grab employee information from user form and insert into the person table if form is POSTED. After insertion into Person table, the newly generated Key/ID is obtained
+# and the rest of the required user arguments are inserted into the Employee table. 
 def addEmployee(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -166,9 +179,10 @@ def addEmployee(request):
             val = cursor.fetchone()
             output = int (val[0])
             cursor.execute("INSERT INTO Employee (StoreID, PersonID, ESSN) Values (%s, %s, %s)", (storeid, output, ssn))
-            return redirect('/findemployee')
+            return redirect('/findemployee')    
     return render(request,'employees/addemployee.html')
 
+# Page accessible to managers only, removes PersonID from Employee based on the user input argument and updates the Person table by setting the deleted employee as a customer
 def deleteEmployee(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -180,6 +194,7 @@ def deleteEmployee(request):
             return redirect('/findemployee')
     return render(request, 'employees/deleteEmployee.html')
 
+# If form is POSTED, Update Person table based on the inputted user key and the newly inputted email address. Otherwise render webpage.
 def updateEmail(request):
     if request.method == 'POST':
         id = request.POST.get('id')
@@ -189,6 +204,7 @@ def updateEmail(request):
             return redirect('/customerlist')
     return render(request, 'customers/updateemail.html')
 
+# Page accessible to superusers only. If form is posted update Person table with new email address based on id key passed in as user argument. Otherwise render webpage.
 def updateEmployeeEmail(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -201,6 +217,8 @@ def updateEmployeeEmail(request):
             return redirect('/findemployee')
     return render(request, 'employees/updateemail.html')
 
+# If user form is POSTED, pass user arguments into INSERT INTO query that inserts a new item into the Item Table. Then retrieve the ItemID of the newly created Item to then
+# insert the rest of the user arguments into the SoldAt Table. Otherwise render webpage.
 def addItem(request):
     if request.method == 'POST':
         barcode = request.POST.get('barcode', None)
@@ -219,7 +237,7 @@ def addItem(request):
             return redirect('/items')
     return render(request, 'items/additem.html')
 
-
+# If user form is POSTED, use user arguments to update the SoldAt table where the user inputted ItemID & storeid key is used to set the amount of the item on hand. Otherwise render webpage.
 def changeInventory(request):
     if request.method == 'POST':
         itemid = request.POST.get('itemid', None)
@@ -238,6 +256,7 @@ def changeInventory(request):
 #             return redirect('/items')
 #     return render(request, 'items/deleteitem.html')
 
+# Same implementation of addItem but inserts into Supplier Table and then Insert Into SupplierPhone with the rest of the user form inputs. 
 def addSupplier(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -257,6 +276,7 @@ def addSupplier(request):
             return redirect('/supplier')
     return render(request, 'suppliers/addsupplier.html')
 
+# If user form is POSTED, use user arguments to insert into the Gems table with the user inputted values. Otherwise rendere webpage.
 def addGem(request):
     if request.method == 'POST':
         ID = request.POST.get('ID', None)
@@ -272,7 +292,7 @@ def addGem(request):
             return redirect('/rawInventory')
     return render(request, 'rawInventory/addGem.html')
 
-
+# Same implementation as addGem
 def addMetal(request):
     if request.method == 'POST':
         ID = request.POST.get('ID', None)
@@ -288,7 +308,7 @@ def addMetal(request):
             return redirect('/rawInventory')
     return render(request, 'rawInventory/addMetal.html')
 
-
+# Render addresses webpage and query all items from PersonAddress table
 def address(request):
     template = loader.get_template('addresses.html')
     with connection.cursor() as cursor:
@@ -299,7 +319,7 @@ def address(request):
         }
     return HttpResponse(template.render(context, request))
 
-
+# Render managers page and queries all store managers from StoreManages table and Manager table to show attributes from both.
 def managers(request):
     template = loader.get_template('managers.html')
     with connection.cursor() as cursor:
@@ -311,10 +331,11 @@ def managers(request):
         }
     return HttpResponse(template.render(context, request))
 
+# Renders services webpage and queries all item from Service table.
 def services(request):
     template = loader.get_template('services.html')
     with connection.cursor() as cursor:
-        cursor.execute("Select * FROM Service")
+        cursor.execute("SELECT * FROM Service")
         row = cursor.fetchall()
         context = {
             'row': row,
