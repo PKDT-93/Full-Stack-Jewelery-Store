@@ -33,7 +33,6 @@ def addCustomer(request):
             return redirect('/customerlist')
     return render(request, 'customers/addcustomer.html')
 
-
 def findemployee(request):
     if not request.user.is_superuser:
         return redirect('/')
@@ -48,7 +47,6 @@ def findemployee(request):
             'row': row,
         }
     return HttpResponse(template.render(context, request))
-
 
 def purchaseHistory(request):
     template = loader.get_template('purchase.html')
@@ -101,19 +99,6 @@ def filterItem(request):
             'row': row,
         }
     return HttpResponse(template.render(context, request))
-
-# def supplier(request):
-#     if not request.user.is_superuser:
-#         return redirect('/')
-#     else:
-#         template = loader.get_template('supplier.html')
-#         with connection.cursor() as cursor:
-#             cursor.execute("SELECT * FROM Supplier, SupplierPhone WHERE Supplier.SupplierID = SupplierPhone.SupplierID GROUP BY Supplier.SupplierID")
-#             row = cursor.fetchall()
-#             context = {
-#                 'row': row,
-#             }
-#         return HttpResponse(template.render(context, request))
 
 def supplier(request):
     if not request.user.is_superuser:
