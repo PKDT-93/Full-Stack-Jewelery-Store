@@ -5,38 +5,31 @@
 {% block content %}
 
 <h1>Store Locations and Numbers</h1>
-{% comment %} <table border="1">
-    {% for x in row %}
-    <tr>
-        {% for col in x %}
-            <td>{{ col }}</td>
+<div class="container-fluid">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">StoreID</th>
+        <th scope="col">Number</th>
+        <th scope="col">City</th>
+        <th scope="col">Province</th>
+        <th scope="col">Postal Code</th>
+        <th scope="col">Street</th>
+        <th scope="col">StoreID</th>
+        <th scope="col">Phone Number</th>
+        <th scope="col">Area Code</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for x in row %}
+        <tr>
+            {% for col in x %}
+                <td>{{ col }}</td>
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </tr>
-    {% endfor %}
-    </table> {% endcomment %}
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">StoreID</th>
-                <th scope="col">Number</th>
-                <th scope="col">City</th>
-                <th scope="col">Province</th>
-                <th scope="col">Postal Code</th>
-                <th scope="col">Street</th>
-                <th scope="col">StoreID</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Area Code</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for x in row %}
-                <tr>
-                    {% for col in x %}
-                        <td>{{ col }}</td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-                </table>
-              </tbody>
-          </table>
+        </table>
+      </tbody>
+  </table>
+</div>
 {% endblock %}
