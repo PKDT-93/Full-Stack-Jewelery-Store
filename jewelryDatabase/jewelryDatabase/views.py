@@ -42,7 +42,7 @@ def findemployee(request):
     with connection.cursor() as cursor:
         cursor.execute(
             """SELECT Employee.StoreID, Employee.PersonID, Employee.ESSN, Person.FirstName, Person.LastName, Person.Email
-            FROM Employee, Person, PersonAddress WHERE Employee.PersonID = ID AND PersonAddress.PersonID = Employee.PersonID""")
+            FROM Employee, Person WHERE Employee.PersonID = ID""")
         row = cursor.fetchall()
         context = {
             'row': row,
