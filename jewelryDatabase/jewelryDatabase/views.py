@@ -172,11 +172,13 @@ def addEmployee(request):
             cursor.execute(
                 "INSERT INTO Person (FirstName, LastName, Email, Customer) Values (%s, %s, %s, %s)", (firstname, lastname, email, 0)
             )
+            cursor.execute("SELECT ID FROM Person WHERE Person.Email = %s", [email])
             val = cursor.fetchone()
             output = int (val[0])
+            print(output)
             cursor.execute("INSERT INTO Employee (StoreID, PersonID, ESSN) Values (%s, %s, %s)", (storeid, output, ssn))
             return redirect('/employee')
-    return render(request, 'employees/addemployee.html')
+    return render(request,'employees/addemployee.html')
 
 def addItem(request):
     if request.method == 'POST':
