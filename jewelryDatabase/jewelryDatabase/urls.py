@@ -17,10 +17,8 @@ from codecs import register
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
-# from .forms import addItemForm
 from . import views
 from django.views.generic.base import TemplateView
-# from jewelryDatabase.views import register
 
 
 urlpatterns = [
@@ -38,12 +36,14 @@ urlpatterns = [
     path('items', views.items, name='items'),
     path('accounts/login', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),
     path('accounts/logout', auth_views.LogoutView.as_view(), name="logout"),
-    # path('register', register, name = 'register')
-    #path('accounts/addemployee', views.addEmployee, name='addemployee'),
     path('items/lookup', views.filterItem, name='filterItem'),
     path('items/additem', views.addItem, name='addItemForm'),
     path('suppliers/addsupplier', views.addSupplier, name='addSupplier'),
     path('suppliers/deletesupplier', views.deleteSupplier, name='deleteSupplier'),
     path('customers/addcustomer', views.addCustomer, name='addCustomer'),
-
+    path('employees/addemployee', views.addEmployee, name='addEmployee'),
+    path('employees/deleteEmployee', views.deleteEmployee, name='deleteEmployee'),
+    path('customers/updateemail', views.updateEmail, name='updateEmail'),
+    path('employees/updateemail', views.updateEmployeeEmail, name='updateEmployeeEmail'),
+    path('items/changeinventory', views.changeInventory, name='changeInventory'),
 ]

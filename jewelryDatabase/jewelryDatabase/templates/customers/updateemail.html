@@ -11,13 +11,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class ="row">
-            <h2 class="form-signin-heading">Add New Supplier</h2>
+            <h2 class="form-signin-heading">Update Email Address</h2>
         </row>
       <div class="col">
         <form id="user_form" method="post" action="" class="form" role="form">
             {% csrf_token %}
-            <input type="text" class="form-control" name="SupplierName"  value="{{user_form.SupplierName}}" placeholder="Enter the Supplier Name" required>
-            <input type="text" class="form-control" name="SupplierEmail" placeholder="Enter Supplier Email Address" required>
+            <input type="text" class="form-control" name="id"  value="{{user_form.id}}" placeholder="Enter the PersonID" required>
+            <input type="text" class="form-control" name="email" placeholder="Enter new email address" required>    
             <br></br>
             <button class="btn btn-primary" type="submit">Save</button>
         </form> 
@@ -26,9 +26,9 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">Read me</h5>
-              <p class="card-text">&#9642;Fill out all fields on the left to insert a new supplier into the database.<br></br>
-                &#9642;Ensure that all fields are fille.</p>
-              <a href="/supplier" class="btn btn-primary">Back to Supplier List</a>
+              <p class="card-text">&#9642;Enter PersonID and their new email address to update.<br></br>
+                &#9642;Ensure that all fields are filled.</p>
+              <a href="/customerlist" class="btn btn-primary">Back to Customer List</a>
             </div>
           </div>
       </div>

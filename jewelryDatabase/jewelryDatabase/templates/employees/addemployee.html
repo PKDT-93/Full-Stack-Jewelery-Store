@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{# Load the tag library #}
+{% load bootstrap5 %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class ="row">
+            <h2 class="form-signin-heading">Add New Employee</h2>
+        </row>
+      <div class="col">
+        <form id="user_form" method="post" action="" class="form" role="form">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="firstname"  value="{{user_form.firstname}}" placeholder="Enter New Employee First Name" required>
+            <input type="text" class="form-control" name="lastname" placeholder="Enter New Employee Last Name" required>
+            <input type="text" class="form-control" name="email" placeholder="Enter Employee Email Address" required>    
+            <input type="text" class="form-control" name="storeid" placeholder="Enter Employee StoreID" required>      
+            <input type="text" class="form-control" name="ssn" placeholder="Enter Employee SSN" required>      
+            <br></br>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form>   
+      </div>
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Read me</h5>
+              <p class="card-text">&#9642;Fill out all fields on the left to insert a new employee into the database.<br></br>
+                &#9642;Ensure that all fields are filled.</p>
+              <a href="/findemployee" class="btn btn-primary">Back to Employee List</a>
+            </div>
+          </div>
+      </div>
+    </div>
+{% endblock %}
+
