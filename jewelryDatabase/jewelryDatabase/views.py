@@ -168,7 +168,7 @@ def addEmployee(request):
             val = cursor.fetchone()
             output = int (val[0])
             cursor.execute("INSERT INTO Employee (StoreID, PersonID, ESSN) Values (%s, %s, %s)", (storeid, output, ssn))
-            return redirect('/employee')
+            return redirect('/findemployee')
     return render(request,'employees/addemployee.html')
 
 def deleteEmployee(request):
