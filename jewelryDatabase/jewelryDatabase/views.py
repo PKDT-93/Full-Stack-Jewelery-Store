@@ -95,12 +95,25 @@ def filterItem(request):
     template = loader.get_template('items/lookup.html')
     with connection.cursor() as cursor:
         cursor.execute(
-            "SELECT * FROM Item WHERE Type = %s", [searchWord])
+            "SELECT Item.ItemID, Item.Barcode, Item.Weight, Item.Price, Item.Type, SoldAt.StoreID, SoldAt.Stock FROM Item, SoldAt WHERE SoldAt.ItemID = Item.ItemID AND Item.Type = %s", [searchWord])
         row = cursor.fetchall()
         context = {
             'row': row,
         }
     return HttpResponse(template.render(context, request))
+
+# def supplier(request):
+#     if not request.user.is_superuser:
+#         return redirect('/')
+#     else:
+#         template = loader.get_template('supplier.html')
+#         with connection.cursor() as cursor:
+#             cursor.execute("SELECT * FROM Supplier, SupplierPhone WHERE Supplier.SupplierID = SupplierPhone.SupplierID GROUP BY Supplier.SupplierID")
+#             row = cursor.fetchall()
+#             context = {
+#                 'row': row,
+#             }
+#         return HttpResponse(template.render(context, request))
 
 def supplier(request):
     if not request.user.is_superuser:
@@ -108,7 +121,7 @@ def supplier(request):
     else:
         template = loader.get_template('supplier.html')
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM Supplier, SupplierPhone WHERE Supplier.SupplierID = SupplierPhone.SupplierID GROUP BY Supplier.SupplierID")
+            cursor.execute("SELECT Supplier.SupplierID, Supplier.SupplierName, Supplier.SupplierEmail, SupplierPhone.AreaCode, SupplierPhone.PhoneNo FROM Supplier JOIN SupplierPhone ON Supplier.SupplierID = SupplierPhone.SupplierID")
             row = cursor.fetchall()
             context = {
                 'row': row,
@@ -118,7 +131,7 @@ def supplier(request):
 def deleteSupplier(request):
     if not request.user.is_superuser:
         return redirect('/')
-
+        
     if request.method == 'POST':
         supplierID = request.POST.get('deletesupplier', None)
         with connection.cursor() as cursor:
