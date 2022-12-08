@@ -1,5 +1,4 @@
 # CPSC471Final Project
-## Peter Tran, Maitry Rohit, Kenny Vo
 
 **Instructions:** 
  
