@@ -1,4 +1,4 @@
-# Full Stack Jewelery Store Application
+# The SparkleStack
 
 **Instructions:** 
  
