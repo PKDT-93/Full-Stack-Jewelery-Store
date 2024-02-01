@@ -1,4 +1,4 @@
-# CPSC471Final Project
+# Full Stack Jewelery Store Application
 
 **Instructions:** 
  
