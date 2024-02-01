@@ -2,7 +2,7 @@
 
 **Instructions:** 
  
-This project uses an SQLite database running on the django framework. 
+This project creates a functional web-application for a jewelry store, using an SQLite database running on the Django framework, with the HTML/CSS deployed using Bootstrap. 
 
 # Quickstart guide :rocket:
 
@@ -36,8 +36,9 @@ Once you have naviated to /jewelryDatabase, please do the following:
 
 - To view the database you may use DB Browser for SQLite `https://sqlitebrowser.org`or install the SQLite Explorer extension for VSCode and open the `FinalProject.db` file in `/jewelryDatabase`. 
   
-- All tables are contained as class objects in the `models.py` file along with their properties and attributes. 
+- All tables are contained as class objects in the `models.py` file along with their properties and attributes.
   
 - The `urls.py` file will contain all urls requests and patterns for the program and the `views.py` file contains all webpage scripting and raw SQL queries.
 
+- Originally completed under CPSC 471
 
